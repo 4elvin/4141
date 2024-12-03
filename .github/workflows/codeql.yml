@@ -1,0 +1,144 @@
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+# ******** NOTE ********
+# We have attempted to detect the languages in your repository. Please check
+# the `language` matrix defined below to confirm you have the correct set of
+# supported CodeQL languages.
+#
+name: "CodeQL Advanced"
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  schedule:
+    - cron: '31 10 * * 4'
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    # Runner size impacts CodeQL analysis time. To learn more, please see:
+    #   - https://gh.io/recommended-hardware-resources-for-running-codeql
+    #   - https://gh.io/supported-runners-and-hardware-resources
+    #   - https://gh.io/using-larger-runners (GitHub.com only)
+    # Consider using larger runners or machines with greater resources for possible analysis time improvements.
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    permissions:
+      # required for all workflows
+      security-events: write
+
+      # required to fetch internal or private CodeQL packs
+      packages: read
+
+      # only required for workflows in private repositories
+      actions: read
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        # CodeQL supports the following values keywords for 'language': 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift'
+        # Use `c-cpp` to analyze code written in C, C++ or both
+        # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
+        # Use 'javascript-typescript' to analyze code written in JavaScript, TypeScript or both
+        # To learn more about changing the languages that are analyzed or customizing the build mode for your analysis,
+        # see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/customizing-your-advanced-setup-for-code-scanning.
+        # If you are analyzing a compiled language, you can modify the 'build-mode' for that language to customize how
+        # your codebase is analyzed, see https://docs.github.com/en/code-security/code-scanning/creating-an-advanced-setup-for-code-scanning/codeql-code-scanning-for-compiled-languages
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
+        # If you wish to specify custom queries, you can do so here or in a config file.
+        # By default, queries listed here will override any specified in a config file.
+        # Prefix the list here with "+" to use these queries and those in the config file.
+
+        # For more details on CodeQL's query packs, refer to: https://docs.github.com/en/code-security/code-scanning/automatically-scanning-your-code-for-vulnerabilities-and-errors/configuring-code-scanning#using-queries-in-ql-packs
+        # queries: security-extended,security-and-quality
+
+    # If the analyze step fails for one of the languages you are analyzing with
+    # "We were unable to automatically build your code", modify the matrix above
+    # to set the build mode to "manual" for that language. Then modify this step
+    # to build your code.
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+    - if: matrix.build-mode == 'manual'
+      shell: bash
+      run: |
+        echo 'If you are using a "manual" build mode for one or more of the' \
+          'languages you are analyzing, replace this with the commands to build' \            - nama: Pengaturan Java JDK
+  penggunaan: tindakan/setup-java@v4.5.0
+  dengan:
+    # Versi Java yang akan disiapkan. Menggunakan versi Java lengkap atau semver. Lihat contoh sintaksis yang didukung dalam berkas README
+    java-version: # opsional
+    # Jalur ke berkas `.java-version`. Lihat contoh sintaksis yang didukung dalam berkas README
+    java-version-file: # opsional
+    # Distribusi Java. Lihat daftar distribusi yang didukung dalam berkas README
+    distribusi:
+    # Tipe paket (jdk, jre, jdk+fx, jre+fx)
+    java-package: # opsional, defaultnya adalah jdk
+    # Arsitektur paket (secara default menggunakan arsitektur action runner)
+    arsitektur: # opsional
+    # Jalur ke tempat JDK terkompresi berada
+    jdkFile: # opsional
+    # Atur opsi ini jika Anda ingin tindakan memeriksa versi terbaru yang tersedia yang memenuhi spesifikasi versi
+    check-latest: # opsional
+    # ID repositori distributionManagement dalam file pom.xml. Defaultnya adalah `github`
+    server-id: # opsional, defaultnya adalah github
+    # Nama variabel lingkungan untuk nama pengguna untuk autentikasi ke repositori Apache Maven. Defaultnya adalah $GITHUB_ACTOR
+    server-username: # opsional, defaultnya adalah GITHUB_ACTOR
+    # Nama variabel lingkungan untuk kata sandi atau token untuk autentikasi ke repositori Apache Maven. Defaultnya adalah $GITHUB_TOKEN
+    server-password: # opsional, defaultnya adalah GITHUB_TOKEN
+    # Jalur tempat file settings.xml akan ditulis. Defaultnya adalah ~/.m2.
+    pengaturan-jalur: # opsional
+    # Timpa file settings.xml jika ada. Nilai defaultnya adalah "true".
+    overwrite-settings: # opsional, defaultnya benar
+    # Kunci pribadi GPG yang akan diimpor. Defaultnya adalah string kosong.
+    gpg-private-key: # opsional
+    # Nama variabel lingkungan untuk frasa sandi kunci privat GPG. Nilai default adalah $GPG_PASSPHRASE.
+    gpg-passphrase: # opsional
+    # Nama platform build untuk menyimpan dependensi dalam cache. Bisa berupa "maven", "gradle" atau "sbt".
+    cache: # opsional
+    # Jalur ke berkas dependensi: pom.xml, build.gradle, build.sbt, dll. Opsi ini dapat digunakan dengan opsi `cache`. Jika opsi ini dihilangkan, tindakan akan mencari berkas dependensi di seluruh repositori. Opsi ini mendukung karakter pengganti dan daftar nama berkas untuk menyimpan beberapa dependensi dalam cache.
+    jalur-ketergantungan-cache: # opsional
+    # Solusi untuk meneruskan status pekerjaan ke langkah posting pekerjaan. Variabel ini tidak ditujukan untuk pengaturan manual
+    status-pekerjaan: # opsional, defaultnya adalah ${{ job.status }}
+    # Token yang digunakan untuk mengautentikasi saat mengambil manifes versi yang dihosting di github.com, seperti untuk Microsoft Build OpenJDK. Saat menjalankan tindakan ini di github.com, nilai default sudah cukup. Saat menjalankan di GHES, Anda dapat meneruskan token akses pribadi untuk github.com jika Anda mengalami pembatasan kecepatan.
+    token: # opsional, defaultnya adalah ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # Nama ID Maven Toolchain jika nama default "${distribution}_${java-version}" tidak diinginkan. Lihat contoh sintaksis yang didukung dalam berkas Penggunaan Lanjutan
+    mvn-toolchain-id: # opsional
+    # Nama Vendor Maven Toolchain jika nama default "${distribution}" tidak diinginkan. Lihat contoh sintaksis yang didukung dalam berkas Penggunaan Lanjutan
+    mvn-toolchain-vendor: # opsional
+          
+          'your code, for example:'
+        echo '  make bootstrap'
+        echo '  make release'
+        exit 1
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{matrix.language}}"            - nama: Tindakan GitHub SecureStack All-In-One
+  # Anda dapat menyematkan ke komit yang tepat atau versinya.
+  # penggunaan: SecureStackCo/actions-all-in-one@96dc79a3c4081a8333040c6bf84b0c528ccb1eb9
+  penggunaan: SecureStackCo/actions-all-in-one@v0.1.2
+  dengan:
+    # Kunci API SecureStack - buat kunci API di https://app.securestack.com
+    kunci_api_securestack:
+    # SecureStack Application ID - dapat diambil dengan mengakses aplikasi yang diperlukan di https://app.securestack.com
+    securestack_app_id:
+    # Tingkat keparahan yang lebih rendah dari nilai ini akan dilaporkan di konsol alur kerja tetapi tidak akan menyebabkan kesalahan untuk tindakan tersebut; nilainya harus salah satu dari: kritis | tinggi | sedang | rendah
+    kerasnya:
+          
